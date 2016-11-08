@@ -10,6 +10,9 @@ object World {
   val Y_MIN = -10
   val X_MAX = 10
   val Y_MAX = 10
+  val WIDTH = X_MAX-X_MIN
+  val HEIGHT = Y_MAX-Y_MIN
+  val WORLD_RECT = Rect(X_MIN,Y_MIN,X_MAX,Y_MAX)
 }
 
 class World(val content: List[PieceShell])(val contentTree: QT) {
@@ -22,12 +25,8 @@ class World(val content: List[PieceShell])(val contentTree: QT) {
     World(newContent, QT(newContent))
   }
   
-  def render2D(w: Int, h: Int, r: Rect): View = {
-    //val dx = (x2-x1)/w
-    //val dy = (y2-y1)/h
-    //colorAt(new Point(x1+x*dx,y1+y*dy))
-    def getPos(x: Int, y: Int) = new PointImpl(r.p1.x+x*r.w/w,r.p1.y+y*r.h/h)
-    new View2D(w, h, (x,y)=>colorAt(getPos(x,y)), getPos)
+  def render2D(w: Int, h: Int, r: Rect = World.WORLD_RECT): View = {
+    View2D(w, h, r, (p)=>colorAt(p))
   }
   
   def colorAt(p: Point): Color = { 

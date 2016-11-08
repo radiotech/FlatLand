@@ -8,7 +8,7 @@ object LineSegment {
   def apply(a: Point, b: Point) = {
     val p1 = if(a.y>b.y){a}else if(b.y>a.y){b}else{if(a.x>b.x){a}else{b}}
     val p2 = if(p1.eq(a)){b}else{a}
-    new LineSegmentImpl(p1, p2, p2.x-p1.x, p2.y-p1.y)
+    new LineSegmentImpl(p1, p2, Vector2(p2.x-p1.x, p2.y-p1.y))
   }
 }
 

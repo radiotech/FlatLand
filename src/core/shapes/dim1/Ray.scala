@@ -5,13 +5,8 @@ import wrapper._
 import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._
 
 object Ray {
-  def apply(p: Point, dx: Double, dy: Double): Ray = {
-    if((dx == 0 && dy != 0) || (dx != 0 && dy == 0)){
-      new SimpleRay(p,dx,dy)
-    } else {
-      new RayImpl(p,dx,dy)
-    }
-  }
+  def apply(p: Point, dir: Vector2): Ray = if(dir.isSimple) new SimpleRay(p,dir) else new RayImpl(p,dir)
+  def apply(p: Point): Ray = new SimpleRay(p,Vector2.ZERO_DIR)
 }
 
 trait Ray extends Line {

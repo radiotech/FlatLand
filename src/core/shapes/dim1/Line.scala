@@ -33,14 +33,13 @@ object Line {
 
 trait Line {
   val p: Point
-  val dx: Double
-  val dy: Double
+  val dir: Vector2
   def validAtT(t: Double) = true
   def capT(t: Double) = if(t.isInfinity || t.isNaN){Double.PositiveInfinity}else{if(validAtT(t)){t}else{Double.NaN}}
-  def xToT(x: Double) = capT((x-p.x)/dx)
-  def yToT(y: Double) = capT((y-p.y)/dy)
-  def tToX(t: Double) = p.x+t*dx
-  def tToY(t: Double) = p.y+t*dy
+  def xToT(x: Double) = capT((x-p.x)/dir.x)
+  def yToT(y: Double) = capT((y-p.y)/dir.y)
+  def tToX(t: Double) = p.x+t*dir.x
+  def tToY(t: Double) = p.y+t*dir.y
   def render(c: Color = new Color(100,100,100), s: Surface): Unit
   def hitType(l: Line): Int
 }
