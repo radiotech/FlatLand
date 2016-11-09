@@ -2,9 +2,9 @@ package core.shapes.dim1
 
 import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._
 
-class SimpleRay(val p: Point, raw_dir: Vector2) extends Ray {
-  lazy val raw_dt = raw_dir.mag
-  lazy val dir = raw_dir.unit
+class SimpleRay(val p: Point, val rawDir: Vector2) extends Ray {
+  lazy val raw_dt = rawDir.mag
+  lazy val dir = rawDir.unit
   override def hitType(l: Line) = {
     l match {
       case sr: SimpleRay => {1}

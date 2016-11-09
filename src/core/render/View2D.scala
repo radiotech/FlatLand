@@ -1,7 +1,7 @@
-package core.main
+package render
 
 import java.awt.{Color}
-import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._
+import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._
 
 object View2D {
   def apply(w: Int, h: Int, r: Rect, gen: Point=>Color) = {

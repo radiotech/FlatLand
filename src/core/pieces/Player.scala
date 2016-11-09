@@ -1,6 +1,7 @@
 package core.pieces
 
 import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._, core.forces._
+import userinput.UserInput
 
 object Player {
   def apply(b: Polygon, m: PlayerMovement) = new Player(b,m);

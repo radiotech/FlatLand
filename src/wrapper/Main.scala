@@ -8,6 +8,8 @@ import java.util.Timer;
 import core.forces._
 import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._
 import core.shapes.dim2.Matrix2
+import userinput.UserInput
+import render.View
 
 object Main {
   val PANNEL_WIDTH = 500
@@ -68,7 +70,7 @@ object Main {
     world.content.foreach{_.piece.body.render(new Color(255,255,255), mapa)}
     world.content.foreach{_.piece.body.boundingBox.render(new Color(255,255,255), mapa)}
     
-    //world.cast(Point(0,0), Vector2(1,1).unit)
+    world.cast(Point(0,0), Vector2(1,1).unit)
     
     grid2.draw(View(mapa))
   }

@@ -1,4 +1,4 @@
-package core.main
+package core.quadtree
 
 import wrapper._
 import java.awt.Color

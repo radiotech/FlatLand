@@ -10,6 +10,7 @@ object LineSegment {
     val p2 = if(p1.eq(a)){b}else{a}
     new LineSegmentImpl(p1, p2, Vector2(p2.x-p1.x, p2.y-p1.y))
   }
+  def apply(a: Point, b: Point, dir: Vector2) = new LineSegmentImpl(a, b, dir)
 }
 
 trait LineSegment extends Ray {

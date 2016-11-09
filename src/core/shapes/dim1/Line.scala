@@ -33,6 +33,7 @@ object Line {
 
 trait Line {
   val p: Point
+  val rawDir: Vector2
   val dir: Vector2
   def validAtT(t: Double) = true
   def capT(t: Double) = if(t.isInfinity || t.isNaN){Double.PositiveInfinity}else{if(validAtT(t)){t}else{Double.NaN}}

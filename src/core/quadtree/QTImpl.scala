@@ -1,8 +1,8 @@
-package core.main
+package core.quadtree
 
 import java.awt.Color
 import wrapper._
-import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._
+import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._, core.forces._
 
 class QTImpl(val content: List[PieceShell], val rect: Rect) extends QT {
   lazy val tl: QT = if(isLeaf){QTNil}else{content.filter(_.piece.body.nwOf(rect.center)) match {case Nil=>QTNil case x=>QT(x,Rect(rect.p1,rect.center))}}

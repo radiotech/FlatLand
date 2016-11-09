@@ -5,6 +5,7 @@ import java.awt.{Color,Canvas,Dimension,Graphics}
 import java.awt.event._
 import java.awt.image.{BufferedImage,DataBufferInt}
 import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._
+import render.View
 
 class DataPanel(val w: Int, val h: Int) extends Canvas {
   setFocusable(true)

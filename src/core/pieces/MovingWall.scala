@@ -1,6 +1,7 @@
 package core.pieces
 
 import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._
+import userinput.UserInput
 
 object MovingWall {
   def apply(b: Rect, dx: Double, dy: Double) = new MovingWall(b,dx,dy)
