@@ -6,7 +6,7 @@ import java.awt.event._
 import scala.collection.mutable.Queue
 import java.util.Timer;
 import core.forces._
-import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._
+import core.main._, core.raytracing._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._, core.raytracing._
 import core.shapes.dim2.Matrix2
 import userinput.UserInput
 import render.View
@@ -66,11 +66,31 @@ object Main {
     grid.draw(world.render2D(VIEW_WIDTH,VIEW_HEIGHT))
     
     mapa.background()
+    
     world.contentTree.renderAll(new Color(255,255,255), mapa)
     world.content.foreach{_.piece.body.render(new Color(255,255,255), mapa)}
     world.content.foreach{_.piece.body.boundingBox.render(new Color(255,255,255), mapa)}
     
-    world.cast(Point(0,0), Vector2(1,1).unit)
+    //world.cast(Point(0,0), Vector2(1,1).unit)
+    
+    /*
+    val bound = world.contentTree.getLeaf(Point.ORIGIN+playerPos).rect //Rect(-3,-7,8,2);
+    bound.render(new Color(255,127,0), mapa)
+    val playerPoint = Point(playerPos.x,playerPos.y)
+    val borderPoint = bound.castInside(playerPoint, playerRot)
+    val cast = LineSegment(playerPoint,borderPoint)
+    cast.render(new Color(125,0,255), mapa)
+    if(!bound.borders(borderPoint)){
+      println("FAIL!")
+    }
+    world.contentTree.getLeaf(borderPoint+playerRot*Trace.DELTA).renderRoot()
+    */
+    
+    val playerPos = Point.ORIGIN+world.content(0).piece.asInstanceOf[Player].pMove.pos
+    val playerRot = world.content(0).piece.asInstanceOf[Player].pMove.rot(Vector2.ZERO_DIR)
+    
+    val trace = Trace(world.contentTree, playerPos, playerRot)
+    trace.render(mapa)
     
     grid2.draw(View(mapa))
   }

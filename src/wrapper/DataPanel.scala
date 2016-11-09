@@ -38,8 +38,8 @@ class DataPanel(val w: Int, val h: Int) extends Canvas {
     override def mouseDragged(e: MouseEvent) {Main.registerInput(e,getPos)}
   })
   this.addKeyListener(new KeyAdapter{
-    override def keyPressed(e: KeyEvent) {println("p"); Main.registerInput(e,getPos)}
-    override def keyReleased(e: KeyEvent) {println("e");Main.registerInput(e,getPos)}
+    override def keyPressed(e: KeyEvent) {Main.registerInput(e,getPos)}
+    override def keyReleased(e: KeyEvent) {Main.registerInput(e,getPos)}
   })
   
   

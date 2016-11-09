@@ -13,6 +13,7 @@ trait Point {
   val x: Double
   lazy val castEast = Ray(this)
   def +(p: Point) = new PointImpl(x+p.x,y+p.y)
+  def +(p: Vector2) = new PointImpl(x+p.x,y+p.y)
   def /(n: Int) = new PointImpl(x/n,y/n)
   def avg(p: Point) = new PointImpl((x+p.x)/2,(y+p.y)/2)
   def setX(n: Double) = new PointImpl(n,y)

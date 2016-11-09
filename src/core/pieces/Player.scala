@@ -7,7 +7,7 @@ object Player {
   def apply(b: Polygon, m: PlayerMovement) = new Player(b,m);
 }
 
-class Player(poly: Polygon, pMove: PlayerMovement) extends Piece {
+class Player(poly: Polygon, val pMove: PlayerMovement) extends Piece {
   val body: Polygon = pMove(poly)
   def next(ui: UserInput) = {
     val pMoveW = if(ui.key('w').isDown) pMove.move(100) else pMove

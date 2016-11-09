@@ -13,6 +13,7 @@ trait Vector2 {
   lazy val unit = if(hasDir) Vector2(x/mag,y/mag) else Vector2.ZERO_DIR
   lazy val isSimple = x==0||y==0
   lazy val hasDir = x!=0||y!=0
+  lazy val slope = y/x
   def addToX(n: Double) = Vector2(x+n,y) 
   def addToY(n: Double) = Vector2(x,y+n)
   def +(v: Vector2) = Vector2(x+v.x,y+v.y)

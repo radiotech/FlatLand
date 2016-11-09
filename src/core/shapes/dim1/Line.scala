@@ -39,8 +39,10 @@ trait Line {
   def capT(t: Double) = if(t.isInfinity || t.isNaN){Double.PositiveInfinity}else{if(validAtT(t)){t}else{Double.NaN}}
   def xToT(x: Double) = capT((x-p.x)/dir.x)
   def yToT(y: Double) = capT((y-p.y)/dir.y)
-  def tToX(t: Double) = p.x+t*dir.x
-  def tToY(t: Double) = p.y+t*dir.y
+  def tToX(t: Double) = p.x+dir.x*t
+  def tToY(t: Double) = p.y+dir.y*t
+  def xToY(x: Double) = p.y+dir.y*capT((x-p.x)/dir.x)
+  def yToX(y: Double) = p.x+dir.x*capT((y-p.y)/dir.y)
   def render(c: Color = new Color(100,100,100), s: Surface): Unit
   def hitType(l: Line): Int
 }

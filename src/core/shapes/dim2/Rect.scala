@@ -15,4 +15,17 @@ trait Rect extends Shape {
   lazy val sides = List(LineSegment(p1,p3),LineSegment(p3,p2),LineSegment(p2,p4),LineSegment(p4,p1))
   lazy val points = List(p1,p3,p2,p1)
   def +(v: Vector2) = Rect(Point(p1.x+v.x,p1.y+v.y), Point(p1.x+v.x,p1.y+v.y))
+  def borders(p: Point) = ((p.x==p1.x||p.x==p2.x)&&(p.y>=p1.y&&p.y<=p2.y))||((p.y==p1.y||p.y==p2.y)&&(p.x>=p1.x&&p.x<=p2.x))
+  def castInside(p: Point, dir: Vector2) = {
+    val side = if(dir.x > 0){
+      if(dir.y > 0){if(dir.slope<(p2.y-p.y)/(p2.x-p.x)) 0 else 1}else{if(dir.slope>(p1.y-p.y)/(p2.x-p.x)) 0 else 3}
+    } else {
+      if(dir.y > 0){if(dir.slope>(p2.y-p.y)/(p1.x-p.x)) 2 else 1}else{if(dir.slope<(p1.y-p.y)/(p1.x-p.x)) 2 else 3}
+    }
+    
+    if(side == 0) Point(p2.x,p.y+dir.y*((p2.x-p.x)/dir.x))
+    else if (side == 1) Point(p.x+dir.x*((p2.y-p.y)/dir.y),p2.y)
+    else if (side == 2) Point(p1.x,p.y+dir.y*((p1.x-p.x)/dir.x))
+    else Point(p.x+dir.x*((p1.y-p.y)/dir.y),p1.y)
+  }
 }
