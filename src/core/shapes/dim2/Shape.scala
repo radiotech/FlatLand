@@ -35,5 +35,6 @@ trait Shape {
   def contains(p: Point) = p.x>=p1.x&p.y>=p1.y&p.x<=p2.x&p.y<=p2.y
   
   //must override...
+  def getIntersections(p: Point, dir: Vector2): List[Double]
   def +(v: Vector2): Shape
 }

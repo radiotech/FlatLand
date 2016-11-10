@@ -23,7 +23,7 @@ trait QT {
   val tl,tr,bl,br: QT
   def sub(p: Point, isIn: Boolean = false): QT = (p.x>rect.center.x,p.y>rect.center.y) match {case (false,false)=>tl case (true,false)=>tr case (false,true)=>bl case (true,true)=>br}
   def find(p: Point, c: List[PieceShell] = Nil): List[PieceShell]
-  def getLeaf(p: Point, l: QT = QTNil): QT
+  def getLeaf(p: Point): QT
   def renderAll(c: Color = new Color(100,100,100), m: Surface = wrapper.Main.mapa): Unit
   def renderRoot() {
     rect.render(Color.RED, Main.mapa)

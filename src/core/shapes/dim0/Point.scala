@@ -1,6 +1,8 @@
 package core.shapes.dim0
 
 import core.main._, core.pieces._, core.shapes.dim0._, core.shapes.dim1._, core.shapes.dim2._, core.shapes.forces._
+import java.awt.Color
+import wrapper._
 
 object Point {
   def apply(x: Double, y: Double) = new PointImpl(x,y)
@@ -22,4 +24,8 @@ trait Point {
   def translate(dx: Double, dy: Double) = new PointImpl(x+dx,y+dy)
   def distTo(p: Point) = Math.sqrt(Point.square(p.x-x)+Point.square(p.y-y))
   def castTo(p: Point) = LineSegment(this,p)
+  def render(c: Color, s: Surface){
+    val pos = s.getPos(this)
+    s.setPixel(pos._1,pos._2,c)
+  }
 }

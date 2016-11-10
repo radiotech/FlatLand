@@ -14,8 +14,10 @@ import render.View
 object Main {
   val PANNEL_WIDTH = 500
   val PANNEL_HEIGHT = 500
-  val VIEW_WIDTH = 500
-  val VIEW_HEIGHT = 500
+  val VIEW_WIDTH = 100
+  val VIEW_HEIGHT = 100
+  val FRAME_TIME = 1000/25
+  
   
   var world = World(
       List.tabulate(10)(_ match {
@@ -47,52 +49,56 @@ object Main {
     
     val updateTimer = new Timer()
     val updateTask = new UpdateTask() 
-    updateTimer.schedule(updateTask, 40, 40)
+    updateTimer.schedule(updateTask, FRAME_TIME, FRAME_TIME)
     
     val drawTimer = new Timer()
     val drawTask = new DrawTask() 
-    drawTimer.schedule(drawTask, 20, 40)
+    drawTimer.schedule(drawTask, FRAME_TIME/2, FRAME_TIME)
   }
   
   def update(): Unit = {
-    inputs = inputs.getNext(if(keys.isEmpty){Queue()}else{keys}.dequeue,if(mbs.isEmpty){null}else{mbs.dequeue},mPos)
-    
-    if(inputs.mbLeft.isNew){println(inputs.mouse.x+","+inputs.mouse.y)}
-    
-    world = world.next(inputs)
+    Help.time("Update"){
+      inputs = inputs.getNext(if(keys.isEmpty){Queue()}else{keys}.dequeue,if(mbs.isEmpty){null}else{mbs.dequeue},mPos)
+      
+      //if(inputs.mbLeft.isNew){println(inputs.mouse.x+","+inputs.mouse.y)}
+      
+      world = world.next(inputs)
+      
+      Thread.sleep(1)
+    }
   }
   
   def draw(): Unit = {
-    grid.draw(world.render2D(VIEW_WIDTH,VIEW_HEIGHT))
-    
-    mapa.background()
-    
-    world.contentTree.renderAll(new Color(255,255,255), mapa)
-    world.content.foreach{_.piece.body.render(new Color(255,255,255), mapa)}
-    world.content.foreach{_.piece.body.boundingBox.render(new Color(255,255,255), mapa)}
-    
-    //world.cast(Point(0,0), Vector2(1,1).unit)
-    
-    /*
-    val bound = world.contentTree.getLeaf(Point.ORIGIN+playerPos).rect //Rect(-3,-7,8,2);
-    bound.render(new Color(255,127,0), mapa)
-    val playerPoint = Point(playerPos.x,playerPos.y)
-    val borderPoint = bound.castInside(playerPoint, playerRot)
-    val cast = LineSegment(playerPoint,borderPoint)
-    cast.render(new Color(125,0,255), mapa)
-    if(!bound.borders(borderPoint)){
-      println("FAIL!")
+    Help.time("Draw"){
+      grid.draw(world.render2D(VIEW_WIDTH,VIEW_HEIGHT))
+      
+      mapa.background()
+      
+      world.contentTree.renderAll(new Color(255,255,255), mapa)
+      world.content.foreach{_.piece.body.render(new Color(255,255,255), mapa)}
+      world.content.foreach{_.piece.body.boundingBox.render(new Color(255,255,255), mapa)}
+      
+      
+      val playerPos = Point.ORIGIN+world.content(0).piece.asInstanceOf[Player].pMove.pos
+      val playerRot = world.content(0).piece.asInstanceOf[Player].pMove.rot(Vector2.ZERO_DIR)
+      
+      val trace = Trace(world.contentTree, playerPos, playerRot)
+      trace.render(mapa)
+      
+      val nodes = Trace.getQTLeaves(playerPos, playerRot, world.contentTree)
+      val near = Trace.getPieceShells(nodes)
+      val points = Trace.getPieceWrapperIntersects(playerPos, playerRot, near)
+      val ranges = Trace.getIntersectRanges(points)
+      nodes.foreach{_.rect.render(Color.CYAN,mapa)}
+      near.foreach {_.piece.body.render(Color.CYAN, mapa)}
+      
+      println()
+      ranges.foreach {x=>println(x._3.size)}
+      println()
+      //Point(Math.random()*5-2.5,Math.random()*5-2.5).render(Color.MAGENTA,mapa)
+      
+      grid2.draw(View(mapa))
     }
-    world.contentTree.getLeaf(borderPoint+playerRot*Trace.DELTA).renderRoot()
-    */
-    
-    val playerPos = Point.ORIGIN+world.content(0).piece.asInstanceOf[Player].pMove.pos
-    val playerRot = world.content(0).piece.asInstanceOf[Player].pMove.rot(Vector2.ZERO_DIR)
-    
-    val trace = Trace(world.contentTree, playerPos, playerRot)
-    trace.render(mapa)
-    
-    grid2.draw(View(mapa))
   }
   
   def registerInput(e: Any, getPos: (Int,Int)=>Point){
